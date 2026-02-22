@@ -15,26 +15,49 @@ body {
   color: white;
 }
 
+/* HEADER FIXO */
 header {
-  padding: 40px 20px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+  padding: 20px;
   background: linear-gradient(180deg, #2563eb, #0f172a);
+  transition: 0.3s ease;
+}
+
+header.scrolled {
+  background: #0f172a;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+}
+
+.header-content {
+  max-width: 1100px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 header h1 {
-  font-size: 2.5rem;
+  font-size: 1.8rem;
   font-weight: 700;
   color: #facc15;
 }
 
-header p {
-  margin-top: 8px;
-  color: #e5e7eb;
+.phone {
+  background-color: #facc15;
+  color: #0f172a;
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-weight: 600;
+  text-decoration: none;
 }
 
 .container {
   max-width: 1100px;
   margin: auto;
-  padding: 20px;
+  padding: 120px 20px 20px 20px;
 }
 
 .search-box {
@@ -100,10 +123,12 @@ header p {
 
 <body>
 
-<header>
-  <div class="container">
+<header id="header">
+  <div class="header-content">
     <h1>🎧 Palco Karaoke</h1>
-    <p>Encontre sua música e solte a voz!</p>
+    <a class="phone" href="https://wa.me/5519992850200" target="_blank">
+      📱 19 99285‑0200
+    </a>
   </div>
 </header>
 
@@ -124,6 +149,7 @@ const searchInput = document.getElementById("search");
 const list = document.getElementById("list");
 const counter = document.getElementById("counter");
 const loading = document.getElementById("loading");
+const header = document.getElementById("header");
 
 let resultados = [];
 let pagina = 0;
@@ -192,6 +218,12 @@ searchInput.addEventListener("input", () => {
 });
 
 window.addEventListener("scroll", () => {
+  if (window.scrollY > 50) {
+    header.classList.add("scrolled");
+  } else {
+    header.classList.remove("scrolled");
+  }
+
   if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200) {
     renderMais();
   }
