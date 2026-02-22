@@ -54,14 +54,28 @@ header h1 {
   text-decoration: none;
 }
 
+/* CONTAINER */
 .container {
   max-width: 1100px;
   margin: auto;
-  padding: 120px 20px 20px 20px;
+  padding: 120px 20px 40px 20px;
 }
 
+/* BARRA DE BUSCA */
 .search-box {
   margin-bottom: 25px;
+  transition: 0.3s ease;
+}
+
+.search-box.sticky {
+  position: fixed;
+  top: 80px;
+  left: 0;
+  width: 100%;
+  padding: 15px 20px;
+  background: #0f172a;
+  z-index: 999;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
 }
 
 .search-box input {
@@ -83,6 +97,7 @@ header h1 {
   color: #cbd5e1;
 }
 
+/* LISTA */
 .song-card {
   background-color: #1e293b;
   padding: 15px 20px;
@@ -118,6 +133,30 @@ header h1 {
   padding: 20px;
   color: #94a3b8;
 }
+
+/* BOTÃO WHATSAPP FLUTUANTE */
+.whatsapp-float {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background-color: #25D366;
+  color: white;
+  font-size: 26px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.4);
+  z-index: 1000;
+  transition: transform 0.2s ease;
+}
+
+.whatsapp-float:hover {
+  transform: scale(1.1);
+}
 </style>
 </head>
 
@@ -127,20 +166,27 @@ header h1 {
   <div class="header-content">
     <h1>🎧 Palco Karaoke</h1>
     <a class="phone" href="https://wa.me/5519992850200" target="_blank">
-      📱 19 99285‑0200
+      📱 19 99285-0200
     </a>
   </div>
 </header>
 
 <div class="container">
-  <div class="search-box">
+
+  <div class="search-box" id="searchBox">
     <input type="text" id="search" placeholder="Buscar artista ou música...">
   </div>
 
   <div id="counter"></div>
   <div id="list"></div>
   <div id="loading" class="loading"></div>
+
 </div>
+
+<!-- BOTÃO FLUTUANTE -->
+<a href="https://wa.me/5519992850200" target="_blank" class="whatsapp-float">
+  💬
+</a>
 
 <script>
 let musicas = [];
@@ -150,6 +196,7 @@ const list = document.getElementById("list");
 const counter = document.getElementById("counter");
 const loading = document.getElementById("loading");
 const header = document.getElementById("header");
+const searchBox = document.getElementById("searchBox");
 
 let resultados = [];
 let pagina = 0;
@@ -218,10 +265,17 @@ searchInput.addEventListener("input", () => {
 });
 
 window.addEventListener("scroll", () => {
+
   if (window.scrollY > 50) {
     header.classList.add("scrolled");
   } else {
     header.classList.remove("scrolled");
+  }
+
+  if (window.scrollY > 120) {
+    searchBox.classList.add("sticky");
+  } else {
+    searchBox.classList.remove("sticky");
   }
 
   if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 200) {
